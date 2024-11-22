@@ -1,5 +1,6 @@
 ﻿using Konnect.Models;
 using Konnect.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -19,12 +20,12 @@ namespace Konnect.Controllers
             _signInManager = signInManager;
             _unit = unit;
         }
-
         public async Task <IActionResult> Index()
         {
             if (IsUserBlockedOrDeleted())
             {
-                await _signInManager.SignOutAsync();                
+                await _signInManager.SignOutAsync();
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
             }
             return View();
         }
@@ -32,6 +33,7 @@ namespace Konnect.Controllers
         private bool IsUserBlockedOrDeleted()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
+            if (claimsIdentity.Claims.Count() == 0) return true;
             var userIdNextMove = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var checkUser = _unit.ApplicationUser.Get(u => u.Id == userIdNextMove);

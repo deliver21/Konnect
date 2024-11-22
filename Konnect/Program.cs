@@ -5,7 +5,6 @@ using Konnect.Models;
 using Konnect.DbInitiliazer;
 using Konnect.Repository;
 using Konnect.Utilities;
-using Konnect.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

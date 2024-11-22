@@ -1,6 +1,5 @@
 ﻿using Konnect.Models;
 using Konnect.Repository;
-using Konnect.Services;
 using Konnect.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
