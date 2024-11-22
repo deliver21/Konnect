@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Konnect.Models;
 using Konnect.DbInitiliazer;
 using Konnect.Repository;
-using Konnect.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 

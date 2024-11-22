@@ -121,17 +121,13 @@ namespace Konnect.Areas.Identity.Pages.Account
                     return Page();
                 }
 
-                // Manually check if email confirmation is required and handle it
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user != null)
                 {
-                    // If the email is not confirmed, log in without enforcing the confirmation
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
-                        // Log in the user directly
                         await _signInManager.SignInAsync(user, Input.RememberMe);
-
-                        // Update user details if necessary
+                                                
                         if (userToUpdate != null)
                         {
                             userToUpdate.LastSeen = DateTime.Now;

@@ -14,7 +14,7 @@ namespace Konnect.Models
 
         [NotMapped]
         public string Interval { get; set; }
-        // Index attribute ensures uniqueness
+        
         [Index(IsUnique = true)]
         public override string Email { get; set; }
     }
