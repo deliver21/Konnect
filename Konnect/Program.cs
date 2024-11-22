@@ -1,8 +1,6 @@
 using Konnect.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Konnect.Models;
-using Konnect.DbInitiliazer;
 using Konnect.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +39,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
-builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
@@ -77,7 +74,10 @@ void SeedDataBase()
 {
     using (var scope = app.Services.CreateScope())
     {
-        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-        dbInitializer.Initialize();
+        var _db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        if(_db.Database.GetPendingMigrations().Count() > 0)
+        {
+            _db.Database.Migrate();
+        }
     }
 }
